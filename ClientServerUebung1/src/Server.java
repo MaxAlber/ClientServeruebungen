@@ -133,26 +133,41 @@ public class Server implements Runnable
 		public void communicate(Socket cSocket) throws IOException
 		{
 			
+			BufferedReader in = null;
+			String line = null;
+			
 		while(true)
 			{
+			
 				System.out.println("Warten auf Text");
-				BufferedReader in = null;
-				String line = null;;
-				//DataInputStream in = null;
-				
 				
 				try
 				{
 					in = new BufferedReader(new InputStreamReader(cSocket.getInputStream()));
-					line = in.readLine();
 				}
 				catch (IOException e)
 				{
 					e.printStackTrace();
 				}
 				
+				StringBuilder builder = new StringBuilder();
+				String aux = "";
+
+				while ((aux = in.readLine()) != null) {
+				    builder.append(aux);
+				}
 				
-				System.out.println(calculating(line));
+
+				line = builder.toString();
+				
+				
+				
+				System.out.println(line);
+				
+				if(line!=null&&!(line.equals("")))
+				{
+					System.out.println(calculating(line));
+				}
 				
 				
 				DataOutputStream out = new DataOutputStream(cSocket.getOutputStream());
